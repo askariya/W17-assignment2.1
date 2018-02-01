@@ -5,16 +5,18 @@ function getStats(txt) {
 
     let nChars = txt.length; // Calculate number of characters
     let nWords = calculateWordCount(txt); // Calculate number of words
-    let nLines = calculateNumLines(txt); // Calculate number of lines
+
+    let line_values = calculateLines(txt); 
+
 
     return {
         text: txt,
         nChars: nChars,
         nWords: nWords,
-        nLines: nLines,
-        // nNonEmptyLines: 22,
+        nLines: line_values.count,
+        nNonEmptyLines: line_values.ne_count,
         // averageWordLength: 3.3,
-        // maxLineLength: 33,
+        maxLineLength: line_values.max_line_length,
         // palindromes: ["12321", "kayak", "mom"],
         // longestWords: ["xxxxxxxxx", "123444444"],
         // mostFrequentWords: ["hello(7)", "world(1)"]
@@ -23,19 +25,39 @@ function getStats(txt) {
 
 
 function calculateWordCount(txt){
-    var count = 0;
-    count = txt.replace(/[^a-zA-Z0-9]/g, ' ').split(' ').filter(x => x).length; //replaces all special characters with spaces
+    word_list = txt.replace(/[^a-zA-Z0-9]/g, ' ').split(' ').filter(x => x); //replaces all special characters with spaces
+    count = word_list.length;
+    word_length_total = 0; 
+    for(i = 0; i < word_list.length; i++){
+        //TODO
+    } 
+
     return count;
 }
 
-function calculateNumLines(txt){
-    // let newl_char = /\n/;
+//let result = (txt.match(/\n/g) || []).length + 1;
 
-    if (txt == ""){
-        return 0;
+function calculateLines(txt){
+    let ne_count = 0;
+    let max_line_length = 0;
+
+    lines = txt.split('\n');
+    for (i = 0; i < lines.length; i++) {
+        if(lines[i] != ""){
+            ne_count++;
+        }
+        // if the line length is greater than the max line length,
+        // assign a new max
+        if(lines[i].length > max_line_length){
+            max_line_length = lines[i].length;
+        }
     }
-    else{
-        let result = (txt.match(/\n/g) || []).length + 1;
-        return result;  
-    }
+
+    return{
+        ne_count: ne_count,
+        count: lines.length,
+        max_line_length: max_line_length,
+    };
+
+    // return ne_count;
 }
