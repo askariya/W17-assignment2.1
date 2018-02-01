@@ -6,11 +6,13 @@ function getStats(txt) {
     let nChars = txt.length; // Calculate number of characters
 
     let nWords = calculateWordCount(txt.replace("\n", " "));
+    let nLines = calculateNumLines(txt);
 
     return {
+        text: txt,
         nChars: nChars,
-        // nWords: 22,
-        // nLines: 10,
+        nWords: nWords,
+        nLines: nLines,
         // nNonEmptyLines: 22,
         // averageWordLength: 3.3,
         // maxLineLength: 33,
@@ -23,6 +25,18 @@ function getStats(txt) {
 
 function calculateWordCount(txt){
     var count = 0;
-    string = string.replace(/[^a-zA-Z0-9]/g, ' '); //replaces all special characters
+    count = txt.replace(/[^a-zA-Z0-9]/g, ' ').split(' ').length; //replaces all special characters with spaces
     return count;
+}
+
+function calculateNumLines(txt){
+    // let newl_char = /\n/;
+
+    if (txt == ""){
+        return 0;
+    }
+    else{
+        let result = (txt.match(/\n/g) || []).length + 1;
+        return result;  
+    }
 }
