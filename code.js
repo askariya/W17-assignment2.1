@@ -4,9 +4,8 @@
 function getStats(txt) {
 
     let nChars = txt.length; // Calculate number of characters
-
-    let nWords = calculateWordCount(txt.replace("\n", " "));
-    let nLines = calculateNumLines(txt);
+    let nWords = calculateWordCount(txt); // Calculate number of words
+    let nLines = calculateNumLines(txt); // Calculate number of lines
 
     return {
         text: txt,
@@ -25,7 +24,7 @@ function getStats(txt) {
 
 function calculateWordCount(txt){
     var count = 0;
-    count = txt.replace(/[^a-zA-Z0-9]/g, ' ').split(' ').length; //replaces all special characters with spaces
+    count = txt.replace(/[^a-zA-Z0-9]/g, ' ').split(' ').filter(x => x).length; //replaces all special characters with spaces
     return count;
 }
 
