@@ -11,7 +11,6 @@ function getStats(txt) {
 
 
     return {
-        text: txt,
         nChars: nChars,
         nWords: word_values.count,
         nLines: line_values.count,
@@ -82,13 +81,15 @@ function calculateWords(txt){
     let top_ten_lwords = [];
 
     for(i = 0; i < words.length; i++){
+        words[i] = words[i].toLowerCase()
         // total up word length
         word_length_total += words[i].length; 
         //check if palindrome
         if(words[i].length > 2){
 
             reverse_word = words[i].split('').reverse().join('');
-            if (words[i] == reverse_word){
+            //the word is a palindrome and hasn't already been recorded
+            if (words[i] == reverse_word && !palindromes.includes(words[i])){
                 palindromes.push(words[i]);  
             } 
         }
@@ -96,14 +97,35 @@ function calculateWords(txt){
     //calculate average word length
     let avg_word_length = word_length_total/words.length;
 
-    //find top 10 words
+    //find top 10 longest words
     // sort function referred to from here: 
     // https://stackoverflow.com/questions/10630766/sort-an-array-based-on-the-length-of-each-element
-    top_ten = words.sort(function(a, b) {
+    let sorted_words = words.sort(function(a, b) {
         return b.length - a.length || // sort by length, if equal then
                a.localeCompare(b);    // sort by alphabetical order
     });
-    top_ten = top_ten.slice(0,10); // get top 10
+
+    let top_ten = [];
+
+    // var i = 0;
+    // while(i < sorted_words.length){
+    //     //push 10 unique words to the top ten list
+    //     if (!top_ten.includes(sorted_words[i])){
+    //         top_ten.push(sorted_words[i]);
+    //     }
+    //     i++;
+    // }
+    count = 0
+    for(i = 0; i < sorted_words.length; i++){
+        if (!top_ten.includes(sorted_words[i])){
+            top_ten.push(sorted_words[i]);
+            count++;
+        }
+
+        if (count == 10){
+            break;
+        }
+    }
 
     return {
         count: words.length,
