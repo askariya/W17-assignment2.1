@@ -15,8 +15,8 @@ function getStats(txt) {
         nWords: word_values.count,
         nLines: line_values.count,
         nNonEmptyLines: line_values.ne_count,
-        averageWordLength: word_values.avg_length,
         maxLineLength: line_values.max_line_length,
+        averageWordLength: word_values.avg_length,
         palindromes: word_values.palindromes,
         longestWords: word_values.top_ten_words,
         mostFrequentWords: word_freqs
@@ -143,7 +143,7 @@ function calculateLines(txt){
 
     lines = txt.split('\n');
     for (i = 0; i < lines.length; i++) {
-        if(lines[i] != ""){
+        if(lines[i].trim() != ""){
             ne_count++;
         }
         // if the line length is greater than the max line length,
